@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.name        = 'redis_session'
   s.version     = 0.1
   s.homepage    = 'https://github.com/ik5/redis_session'
-  s.summery     = 'A session handler using Redis DB'
+  s.summary     = 'A session handler using Redis DB'
   s.description = <<EOF
 A session like handler of data using the Redis Database.
 The session is built with mindset that non web applications
@@ -12,7 +12,7 @@ EOF
 
   s.authors      = ['Ido Kanner']
   s.licenses     = 'MIT'
-  s.dependencies = ['redis']
+  s.add_dependency('redis')
   s.add_development_dependency('rspec')
 
 end
