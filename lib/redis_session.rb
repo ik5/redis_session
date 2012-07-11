@@ -37,7 +37,7 @@ module Session
     def restore(key)
       a_key = "#{@options[:prefix]}#{key}"
       data  = @redis.get(a_key)
-      data  = {} if data.nil?
+      data.nil? ? {} : Marshal.load(data)
     rescue
       {}
     end
