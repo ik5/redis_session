@@ -62,6 +62,8 @@ module Session
     rescue
       false
     end
+
+    alias :delete :remove
   end
 end
 
