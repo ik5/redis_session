@@ -10,7 +10,7 @@ The session is built with mindset that non web applications
 can use it just as well as web applications.
 EOF
 
-  s.files        = ['lib/redis_session.rb', 'redis_session.gemsepc']
+  s.files        = ['lib/redis_session.rb', 'redis_session.gemsepc', 'license']
   s.authors      = ['Ido Kanner']
   s.licenses     = 'MIT'
   s.add_dependency('redis')
