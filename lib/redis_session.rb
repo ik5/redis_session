@@ -43,11 +43,11 @@ module Session
     end
 
     def save(key, value, ttl = nil)
-      a_key  = "#{@options[:prefix]}#{key}"
+      a_key  = make_key(key)
       a_data = Marshal.dump(value)
       ttl ||= @options[:expire]
       if ttl > 0
-        @redis.setex(a_key, @options[:expire], a_data)
+        @redis.setex(a_key, ttl, a_data)
       else
         @redis.set(a_key, a_data)
       end
@@ -57,42 +57,54 @@ module Session
     end
 
     def restore(key, default={})
-      a_key = "#{@options[:prefix]}#{key}"
+      a_key = make_key(key)
       data  = @redis.get(a_key)
       data.nil? ? default : Marshal.load(data)
     rescue
       default
     end
 
+    def expire(key, ttl)
+      a_key = make_key(key)
+      @redis.expire(a_key, ttl)
+    rescue
+      false
+    end
+
     def ttl(key)
-      a_key = "#{@options[:prefix]}#{key}"
+      a_key = make_key(key)
       @redis.ttl(a_key)
     rescue
       -1
     end
 
     def remove(key)
-      a_key = "#{@options[:prefix]}#{key}"
+      a_key = make_key(key)
       @redis.del(a_key)
     rescue
       false
     end
 
     def key?(key)
-      a_key = "#{@options[:prefix]}#{key}"
+      a_key = make_key(key)
       @redis.exists a_key
     rescue
       false
     end
     
     def value?(key)
-      a_key = "#{@options[:prefix]}#{key}"
+      a_key = make_key(key)
       @redis.get(a_key) != nil
     rescue
       false
     end
 
     alias :delete :remove
+
+    private
+      def make_key(key)
+        "#{@options[:prefix]}#{key}"
+      end
   end
 end
 
