@@ -30,7 +30,7 @@ end
 module Session
   class SessionClient
     def initialize(options={})
-      raise ArgumentError, 'options must be Hash' unless options.class == Hash
+      raise ArgumentError, 'options must be Hash' unless options.kind_of? Hash
 
       options[:host]   ||= 'localhost' unless options[:path]
       options[:port]   ||= 6379
@@ -55,12 +55,12 @@ module Session
       false
     end
 
-    def restore(key)
+    def restore(key, default={})
       a_key = "#{@options[:prefix]}#{key}"
       data  = @redis.get(a_key)
-      data.nil? ? {} : Marshal.load(data)
+      data.nil? ? default : Marshal.load(data)
     rescue
-      {}
+      default
     end
 
     def expire=(key, expire)
@@ -80,6 +80,20 @@ module Session
     def remove(key)
       a_key = "#{@options[:prefix]}#{key}"
       @redis.del(a_key)
+    rescue
+      false
+    end
+
+    def key?(key)
+      a_key = "#{@options[:prefix]}#{key}"
+      @redis.exists a_key
+    rescue
+      false
+    end
+    
+    def value?(key)
+      a_key = "#{@options[:prefix]}#{key}"
+      @redis.get(a_key) != nil
     rescue
       false
     end
