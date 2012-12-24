@@ -1,7 +1,7 @@
 
 Gem::Specification.new do |s|
   s.name        = 'redis_session'
-  s.version     = '0.1.3'
+  s.version     = '0.1.4'
   s.homepage    = 'https://github.com/ik5/redis_session'
   s.summary     = 'A session handler using Redis DB'
   s.description = <<EOF
