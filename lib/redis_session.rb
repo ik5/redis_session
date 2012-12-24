@@ -42,10 +42,11 @@ module Session
       @redis   = Redis.new(@options)
     end
 
-    def save(key, value)
+    def save(key, value, ttl = nil)
       a_key  = "#{@options[:prefix]}#{key}"
       a_data = Marshal.dump(value)
-      if @options[:expire] > 0
+      ttl ||= @options[:expire]
+      if ttl > 0
         @redis.setex(a_key, @options[:expire], a_data)
       else
         @redis.set(a_key, a_data)
@@ -61,13 +62,6 @@ module Session
       data.nil? ? default : Marshal.load(data)
     rescue
       default
-    end
-
-    def expire=(key, expire)
-      a_key = "#{@options[:prefix]}#{key}"
-      @redis.expire(a_key, expire) == 1
-    rescue
-      false
     end
 
     def ttl(key)
