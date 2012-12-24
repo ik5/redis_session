@@ -66,7 +66,7 @@ module Session
 
     def ttl(key)
       a_key = "#{@options[:prefix]}#{key}"
-      @redis.ttl(a_key, key)
+      @redis.ttl(a_key)
     rescue
       -1
     end
