@@ -28,7 +28,14 @@ rescue
 end
 
 module Session
+  ## 
+  #
+
   class SessionClient
+    
+    ##
+    #
+
     def initialize(options={})
       raise ArgumentError, 'options must be Hash' unless options.kind_of? Hash
 
@@ -41,6 +48,9 @@ module Session
       @options = options
       @redis   = Redis.new(@options)
     end
+
+    ##
+    #
 
     def save(key, value, ttl = nil)
       a_key  = make_key(key)
@@ -56,6 +66,9 @@ module Session
       false
     end
 
+    ##
+    #
+
     def restore(key, default={})
       a_key = make_key(key)
       data  = @redis.get(a_key)
@@ -64,12 +77,18 @@ module Session
       default
     end
 
+    ##
+    #
+
     def expire(key, ttl)
       a_key = make_key(key)
       @redis.expire(a_key, ttl)
     rescue
       false
     end
+
+    ##
+    #
 
     def ttl(key)
       a_key = make_key(key)
@@ -78,12 +97,18 @@ module Session
       -1
     end
 
+    ##
+    #
+
     def remove(key)
       a_key = make_key(key)
       @redis.del(a_key)
     rescue
       false
     end
+
+    ##
+    #
 
     def key?(key)
       a_key = make_key(key)
@@ -92,6 +117,9 @@ module Session
       false
     end
     
+    ##
+    #
+
     def value?(key)
       a_key = make_key(key)
       @redis.get(a_key) != nil
