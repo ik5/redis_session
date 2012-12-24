@@ -13,6 +13,7 @@ EOF
   s.files        = ['lib/redis_session.rb', 'redis_session.gemsepc', 'license']
   s.authors      = ['Ido Kanner']
   s.licenses     = 'MIT'
+  s.email        = 'idokan@gmail.com'
   s.add_dependency('redis')
   s.add_development_dependency('rspec')
 
