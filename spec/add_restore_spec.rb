@@ -58,6 +58,21 @@ describe Session::SessionClient do
     end
   end
 
+  context 'Dealing with prefix' do
+    it 'should return the prefix' do
+     prefix = @session.prefix
+     prefix.should == 'add_test'
+    end
+
+    it 'should change the prefix' do
+      orig_prefix = @session.prefix
+      @session.prefix = orig_prefix + '_'
+      prefix = @session.prefix
+      prefix.should == orig_prefix + '_'
+      @session.prefix = orig_prefix
+    end
+  end
+
   context 'Working with expire' do
     it 'should have ttl of 5 seconds when saving' do
       @session.save('with_ttl', 1, 5)
