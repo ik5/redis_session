@@ -93,6 +93,28 @@ module Session
 
     ##
     #
+    # Getting the prefix name
+    #
+    # returns:: The prefix string
+    #
+
+    def prefix
+      @options[:prefix]
+    end
+
+    ##
+    #
+    # Changing the prefix string _(will not effect existing keys)_
+    #
+    # prefix:: The new prefix to be set
+    #
+    
+    def prefix=(prefix)
+      @options[:prefix] = prefix
+    end
+
+    ##
+    #
     # Saving a key with a value
     #
     # key:: the name of the key to be saved
