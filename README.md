@@ -21,6 +21,7 @@ request.
  * Checking if key exists
  * Checking if key has a value
  * Removing keys
+ * Changing the prefix using the prefix= method
 
 ### Documentation
 
