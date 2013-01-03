@@ -1,5 +1,4 @@
-Redis Session
-=============
+# Redis Session 
 
 Redis\_session is a ruby based library that allow every ruby application to 
 store information using Redis.
@@ -10,8 +9,7 @@ it can be used for web based applications just as well.
 By providing unique prefix for each session, you can distinguish between each 
 request.
 
-Current features
-----------------
+## Current features
 
  * Adding prefix to each session instance
  * Expiring keys globally or specific keys
@@ -24,6 +22,9 @@ Current features
  * Checking if key has a value
  * Removing keys
 
+### Documentation
+
+ The source code is using rdoc.
 
 Example:
 --------
