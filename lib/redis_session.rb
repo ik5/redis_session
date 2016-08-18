@@ -20,12 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-begin
-  require 'redis'
-rescue
-  require 'rubygems'
-  require 'redis'
-end
+require 'redis'
+require_relative 'redis_session/version'
 
    ##
    #
@@ -250,6 +246,33 @@ module Session
 
     alias :delete :remove
 
+    ##
+    #
+    # scan for partial value in redis
+    # If found return a hash of key => value
+    # If not found, return nil
+    #
+    def scan(a_value)
+      key   = ''
+      value = ''
+      @redis.keys('*').each do |x|
+        next unless redis.type(x) == 'string'
+        
+        val = redis.get(x)
+        if val =~ /#{a_value}/
+          key   = x
+          value = val
+          
+          break
+        end
+      end
+      
+      {key => Marshal.load(value) }
+      
+    rescue Exception
+      nil
+    end
+    
     private
       ##
       #
