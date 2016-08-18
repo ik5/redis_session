@@ -1,3 +1,4 @@
-module RedisSession
-  VERSION = "0.1.0"
+module Session
+
+  VERSION = '0.1.7'
 end
