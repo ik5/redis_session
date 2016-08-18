@@ -1,4 +1,4 @@
-require 'redis_session'
+require_relative 'spec_helper'
 
 describe Session::SessionClient do
   before do
