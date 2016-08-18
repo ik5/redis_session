@@ -249,27 +249,42 @@ module Session
     ##
     #
     # scan for partial value in redis
+    # Using a block you can create your own criteria for lookup:
+    #
+    # Example:
+    # let's say there is a key named "foo", and the value is a hash: {:click=>true, :reading=>0}
+    #
+    # ret = session.scan_by do |x|
+    #    next unless x.kind_of? Hash
+    #    next unless x.key? :click
+    #
+    #    x[:click] == true
+    # end
+    #
+    # => {"foo"=>{:click=>true, :reading=>0}}
+    #
     # If found return a hash of key => value
     # If not found, return nil
     #
-    def scan(a_value)
+    def scan_by(&block)
       key   = ''
       value = ''
       @redis.keys('*').each do |x|
-        next unless redis.type(x) == 'string'
+        next unless @redis.type(x) == 'string'
         
-        val = redis.get(x)
-        if val =~ /#{a_value}/
+        value = Marshal.load(@redis.get(x)) rescue next # not really a ruby object
+        if yield value
           key   = x
-          value = val
-          
           break
         end
       end
       
-      {key => Marshal.load(value) }
+      return nil if key.empty?
       
-    rescue Exception
+      { key => value }
+      
+    rescue Exception => e
+      puts "exception: #{e}\n#{e.backtrace.join("\n")}"
       nil
     end
     
