@@ -22,6 +22,7 @@ request.
  * Checking if key has a value
  * Removing keys
  * Changing the prefix using the prefix= method
+ * find key and value based on custom lookup
 
 ### Documentation
 
@@ -57,6 +58,12 @@ Example:
                                 # it's alias to remove
 
     puts 'still here' if session.key? 'key' # do we have the key ?
+    ret = session.scan_by do |x|
+       next unless x.kind_of? Hash
+       next unless x.key? :click
+   
+       x[:click] == true
+    end
 
 LICENSE
 -------
