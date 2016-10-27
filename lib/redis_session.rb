@@ -132,7 +132,7 @@ module Session
         @redis.set(a_key, a_data)
       end
       true
-    rescue BaseConnectionError
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       false
@@ -152,7 +152,7 @@ module Session
       a_key = make_key(key)
       data  = @redis.get(a_key)
       data.nil? ? default : Marshal.load(data)
-    rescue BaseConnectionError
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       default
@@ -171,7 +171,7 @@ module Session
     def expire(key, ttl)
       a_key = make_key(key)
       @redis.expire(a_key, ttl)
-    rescue BaseConnectionError
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       false
@@ -189,8 +189,8 @@ module Session
     def ttl(key)
       a_key = make_key(key)
       @redis.ttl(a_key)
-      
-    rescue BaseConnectionError
+
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       -1
@@ -209,7 +209,7 @@ module Session
       a_key = make_key(key)
       @redis.del(a_key)
 
-    rescue BaseConnectionError
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       false
@@ -227,8 +227,8 @@ module Session
     def key?(key)
       a_key = make_key(key)
       @redis.exists a_key
-    
-    rescue BaseConnectionError
+
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       false
@@ -246,8 +246,8 @@ module Session
     def value?(key)
       a_key = make_key(key)
       @redis.get(a_key) != nil
-      
-    rescue BaseConnectionError
+
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception
       false
@@ -300,8 +300,8 @@ module Session
       return nil if key.empty?
       
       { key => value }
-      
-    rescue BaseConnectionError
+
+    rescue Redis::BaseConnectionError
       raise
     rescue Exception #=> e
       # puts "exception: #{e}\n#{e.backtrace.join("\n")}"
